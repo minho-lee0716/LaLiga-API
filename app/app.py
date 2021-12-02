@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 # models.Base.metadata.create_all(bind=engine)
 
 DESC = """
-🏆 LaLiga API ⚽️
+🏆 LaLiga API ⚽️ (_Season 21-22_)
 
 You will be able to:
 
