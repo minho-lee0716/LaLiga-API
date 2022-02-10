@@ -1,7 +1,17 @@
 from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, APIRouter
 from sqlalchemy.orm import Session
+
+player_router = APIRouter(
+    prefix="/player",
+    tags=["player"],
+    dependencies=[],
+    responses={404: {"description": "Not found"}}
+)
+
+from starlette import status
+
 
 # from . import crud, models
 # from schema import club, player, stadium
@@ -55,7 +65,7 @@ app = FastAPI(
         "name":"Min-Ho Lee",
         "url":"https://github.com/minho-lee0716"
     },
-    openapi_tags=API_TAGS,
+    # openapi_tags=API_TAGS,
     openapi_url="/docs.json",
     # openapi_url=None,
     docs_url="/docs",
@@ -66,14 +76,19 @@ app = FastAPI(
 @app.get("/player", tags=["player"], summary="All players who play in LaLiga")
 async def player():
     """
-    id: Primary key\n
-    name: Player name\n
-    club: Affiliated club team name
+        **id** : Primary key\n
+        name: Player name\n
+        club: Affiliated club team name
     """
     return [
         {"id": 1, "name": "Karim Benzema", "club": "RealMadrid"},
         {"id": 2, "name": "Vinicius Jr", "club": "RealMadrid"},
     ]
+
+
+@app.get("/club", tags=["club"], summary="All clubs in LaLiga")
+async def club():
+    return {}
 
 
 # @app.get("/player/")
@@ -128,3 +143,15 @@ async def player():
 # def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 #     items = crud.get_items(db, skip=skip, limit=limit)
 #     return items
+
+def get_full_name(first_name: str, last_name: str):
+    full_name = first_name.title() + " " + last_name.title()
+    return full_name
+
+
+print(get_full_name("john", "doe"))
+
+
+def get_name_with_age(name: str, age: int):
+    name_with_age = name + " is this old: " + str(age)
+    return name_with_age
